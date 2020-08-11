@@ -3,14 +3,13 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/dougbtv/whereabouts/pkg/allocate"
 	"net"
 	"strings"
 
 	"github.com/containernetworking/cni/pkg/skel"
-	"github.com/containernetworking/cni/pkg/types"
 	"github.com/containernetworking/cni/pkg/types/current"
 	"github.com/containernetworking/plugins/pkg/testutils"
-	"github.com/dougbtv/whereabouts/pkg/allocate"
 	whereaboutstypes "github.com/dougbtv/whereabouts/pkg/types"
 
 	. "github.com/onsi/ginkgo"
@@ -180,7 +179,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "kubernetes": {"kubeconfig": "%s"},
 		  "range": "192.168.22.0/24"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		args := &skel.CmdArgs{
 			ContainerID: "dummyfirstrange",
@@ -222,7 +221,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "kubernetes": {"kubeconfig": "%s"},
 		  "range": "192.168.22.0/28"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		argssecond := &skel.CmdArgs{
 			ContainerID: "dummysecondrange",
@@ -284,7 +283,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "kubernetes": {"kubeconfig": "%s"},
 		  "range": "2001::2:3:0/124"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		args := &skel.CmdArgs{
 			ContainerID: "dummyfirstrange",
@@ -326,7 +325,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "kubernetes": {"kubeconfig": "%s"},
 		  "range": "2001::2:3:0/126"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		argssecond := &skel.CmdArgs{
 			ContainerID: "dummysecondrange",
@@ -389,7 +388,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "enable_overlapping_ranges": false,
 		  "range": "192.168.33.0/24"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		args := &skel.CmdArgs{
 			ContainerID: "dummyfirstrange",
@@ -431,7 +430,7 @@ var _ = Describe("Whereabouts operations", func() {
 		  "kubernetes": {"kubeconfig": "%s"},
 		  "range": "192.168.33.0/28"
 		}
-	  }`, kubeConfigPath)
+	 }`, kubeConfigPath)
 
 		argssecond := &skel.CmdArgs{
 			ContainerID: "dummysecondrange",
@@ -479,25 +478,25 @@ var _ = Describe("Whereabouts operations", func() {
 		const nspath string = "/some/where"
 
 		conf := fmt.Sprintf(`{
-      "cniVersion": "0.3.1",
-      "name": "mynet",
-      "type": "ipvlan",
-      "master": "foo0",
-      "ipam": {
-        "type": "whereabouts",
-        "log_file" : "/tmp/whereabouts.log",
+     "cniVersion": "0.3.1",
+     "name": "mynet",
+     "type": "ipvlan",
+     "master": "foo0",
+     "ipam": {
+       "type": "whereabouts",
+       "log_file" : "/tmp/whereabouts.log",
 				"log_level" : "debug",
-        "etcd_host": "%s",
-        "range": "192.168.1.0/24",
-        "exclude": [
-          "192.168.1.0/28",
-          "192.168.1.16/28"
-        ],
-        "gateway": "192.168.10.1",
-        "routes": [
-          { "dst": "0.0.0.0/0" }
-        ]
-      }
+       "etcd_host": "%s",
+       "range": "192.168.1.0/24",
+       "exclude": [
+         "192.168.1.0/28",
+         "192.168.1.16/28"
+       ],
+       "gateway": "192.168.10.1",
+       "routes": [
+         { "dst": "0.0.0.0/0" }
+       ]
+     }
     }`, etcdHost)
 
 		args := &skel.CmdArgs{
@@ -539,33 +538,33 @@ var _ = Describe("Whereabouts operations", func() {
 		const nspath string = "/some/where"
 
 		conf := fmt.Sprintf(`{
-      "cniVersion": "0.3.1",
-      "name": "mynet",
-      "type": "ipvlan",
-      "master": "foo0",
-      "ipam": {
-        "type": "whereabouts",
-        "etcd_host": "%s",
-        "range": "192.168.1.44/28",
-        "gateway": "192.168.1.1",
-        "addresses": [ {
-            "address": "10.10.0.1/24",
-            "gateway": "10.10.0.254"
-          },
-          {
-            "address": "3ffe:ffff:0:01ff::1/64",
-            "gateway": "3ffe:ffff:0::1"
-          }],
-        "routes": [
-          { "dst": "0.0.0.0/0" },
-          { "dst": "192.168.0.0/16", "gw": "10.10.5.1" },
-          { "dst": "3ffe:ffff:0:01ff::1/64" }],
-        "dns": {
-          "nameservers" : ["8.8.8.8"],
-          "domain": "example.com",
-          "search": [ "example.com" ]
-        }
-      }
+     "cniVersion": "0.3.1",
+     "name": "mynet",
+     "type": "ipvlan",
+     "master": "foo0",
+     "ipam": {
+       "type": "whereabouts",
+       "etcd_host": "%s",
+       "range": "192.168.1.44/28",
+       "gateway": "192.168.1.1",
+       "addresses": [ {
+           "address": "10.10.0.1/24",
+           "gateway": "10.10.0.254"
+         },
+         {
+           "address": "3ffe:ffff:0:01ff::1/64",
+           "gateway": "3ffe:ffff:0::1"
+         }],
+       "routes": [
+         { "dst": "0.0.0.0/0" },
+         { "dst": "192.168.0.0/16", "gw": "10.10.5.1" },
+         { "dst": "3ffe:ffff:0:01ff::1/64" }],
+       "dns": {
+         "nameservers" : ["8.8.8.8"],
+         "domain": "example.com",
+         "search": [ "example.com" ]
+       }
+     }
     }`, etcdHost)
 
 		args := &skel.CmdArgs{
@@ -848,13 +847,13 @@ var _ = Describe("Whereabouts operations", func() {
 		const nspath string = "/some/where"
 
 		conf := `{
-      "cniVersion": "0.3.1",
-      "name": "mynet",
-      "type": "ipvlan",
-      "master": "foo0",
-      "ipam": {
-        asdf
-      }
+     "cniVersion": "0.3.1",
+     "name": "mynet",
+     "type": "ipvlan",
+     "master": "foo0",
+     "ipam": {
+       asdf
+     }
     }`
 
 		args := &skel.CmdArgs{
@@ -910,6 +909,183 @@ var _ = Describe("Whereabouts operations", func() {
 			return cmdAdd(args)
 		})
 		Expect(err).To(HaveOccurred())
+	})
+
+	It("allocate IP from ranges array", func() {
+		const ifname string = "eth0"
+		const nspath string = "/some/where"
+
+		conf := fmt.Sprintf(`{
+		"cniVersion": "0.3.1",
+		"name": "mynet",
+		"type": "ipvlan",
+		"master": "foo0",
+		"ipam": {
+		  "type": "whereabouts",
+		  "datastore": "kubernetes",
+		  "log_file" : "/tmp/whereabouts.log",
+          "log_level" : "debug",
+		  "kubernetes": {"kubeconfig": "%s"},
+          "ranges" : [
+            {
+              "range": "192.168.22.0/24",
+	          "range_start": "192.168.22.2",
+              "range_end": "192.168.22.3",
+              "gateway": "192.168.22.1"
+            },
+            {
+              "range": "192.168.22.0/24",
+	          "range_start": "192.168.22.5",
+              "range_end": "192.168.22.6",
+              "gateway": "192.168.22.4"
+            }
+          ]
+		  
+		}
+	  }`, kubeConfigPath)
+
+		args1 := &skel.CmdArgs{
+			ContainerID: "dummy1",
+			Netns:       nspath,
+			IfName:      ifname,
+			StdinData:   []byte(conf),
+		}
+
+		args2 := &skel.CmdArgs{
+			ContainerID: "dummy2",
+			Netns:       nspath,
+			IfName:      ifname,
+			StdinData:   []byte(conf),
+		}
+
+		args3 := &skel.CmdArgs{
+			ContainerID: "dummy3",
+			Netns:       nspath,
+			IfName:      ifname,
+			StdinData:   []byte(conf),
+		}
+
+		args4 := &skel.CmdArgs{
+			ContainerID: "dummy4",
+			Netns:       nspath,
+			IfName:      ifname,
+			StdinData:   []byte(conf),
+		}
+
+		args5 := &skel.CmdArgs{
+			ContainerID: "dummy5",
+			Netns:       nspath,
+			IfName:      ifname,
+			StdinData:   []byte(conf),
+		}
+
+		// ----------------------------- range 1
+		// Allocate the IP
+		r, raw, err := testutils.CmdAddWithArgs(args1, func() error {
+			return cmdAdd(args1)
+		})
+		Expect(err).NotTo(HaveOccurred())
+		// fmt.Printf("!bang raw: %s\n", raw)
+		Expect(strings.Index(string(raw), "\"version\":")).Should(BeNumerically(">", 0))
+
+		result, err := current.GetResult(r)
+		Expect(err).NotTo(HaveOccurred())
+
+		// Gomega is cranky about slices with different caps
+		Expect(*result.IPs[0]).To(Equal(
+			current.IPConfig{
+				Version: "4",
+				Address: mustCIDR("192.168.22.2/24"),
+				Gateway: net.ParseIP("192.168.22.1"),
+			}))
+
+		// ----------------------------- range 2
+		// Allocate the IP
+		r, raw, err = testutils.CmdAddWithArgs(args2, func() error {
+			return cmdAdd(args2)
+		})
+		Expect(err).NotTo(HaveOccurred())
+		// fmt.Printf("!bang raw: %s\n", raw)
+		Expect(strings.Index(string(raw), "\"version\":")).Should(BeNumerically(">", 0))
+
+		result, err = current.GetResult(r)
+		Expect(err).NotTo(HaveOccurred())
+
+		// Gomega is cranky about slices with different caps
+		Expect(*result.IPs[0]).To(Equal(
+			current.IPConfig{
+				Version: "4",
+				Address: mustCIDR("192.168.22.3/24"),
+				Gateway: net.ParseIP("192.168.22.1"),
+			}))
+
+		// ----------------------------- range 3
+		// Allocate the IP
+		r, raw, err = testutils.CmdAddWithArgs(args3, func() error {
+			return cmdAdd(args3)
+		})
+		Expect(err).NotTo(HaveOccurred())
+		// fmt.Printf("!bang raw: %s\n", raw)
+		Expect(strings.Index(string(raw), "\"version\":")).Should(BeNumerically(">", 0))
+
+		result, err = current.GetResult(r)
+		Expect(err).NotTo(HaveOccurred())
+
+		// Gomega is cranky about slices with different caps
+		Expect(*result.IPs[0]).To(Equal(
+			current.IPConfig{
+				Version: "4",
+				Address: mustCIDR("192.168.22.5/24"),
+				Gateway: net.ParseIP("192.168.22.4"),
+			}))
+
+		// ----------------------------- range 4
+		// Allocate the IP
+		r, raw, err = testutils.CmdAddWithArgs(args4, func() error {
+			return cmdAdd(args4)
+		})
+		Expect(err).NotTo(HaveOccurred())
+		// fmt.Printf("!bang raw: %s\n", raw)
+		Expect(strings.Index(string(raw), "\"version\":")).Should(BeNumerically(">", 0))
+
+		result, err = current.GetResult(r)
+		Expect(err).NotTo(HaveOccurred())
+
+		// Gomega is cranky about slices with different caps
+		Expect(*result.IPs[0]).To(Equal(
+			current.IPConfig{
+				Version: "4",
+				Address: mustCIDR("192.168.22.6/24"),
+				Gateway: net.ParseIP("192.168.22.4"),
+			}))
+
+		// ----------------------------- range 5
+		// Allocate the IP
+		r, raw, err = testutils.CmdAddWithArgs(args5, func() error {
+			return cmdAdd(args5)
+		})
+		Expect(err).To(HaveOccurred())
+
+		// ------------------------ deallocation
+		err = testutils.CmdDelWithArgs(args1, func() error {
+			return cmdDel(args1)
+		})
+		Expect(err).NotTo(HaveOccurred())
+
+		err = testutils.CmdDelWithArgs(args2, func() error {
+			return cmdDel(args2)
+		})
+		Expect(err).NotTo(HaveOccurred())
+
+		err = testutils.CmdDelWithArgs(args3, func() error {
+			return cmdDel(args3)
+		})
+		Expect(err).NotTo(HaveOccurred())
+
+		err = testutils.CmdDelWithArgs(args4, func() error {
+			return cmdDel(args4)
+		})
+		Expect(err).NotTo(HaveOccurred())
 	})
 
 })

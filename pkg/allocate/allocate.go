@@ -21,12 +21,12 @@ func (a AssignmentError) Error() string {
 }
 
 // AssignIP assigns an IP using a range and a reserve list.
-func AssignIP(ipamConf types.IPAMConfig, reservelist []types.IPReservation, containerID string) (net.IPNet, []types.IPReservation, error) {
+func AssignIP(ipRange types.IPRange, reservelist []types.IPReservation, containerID string) (net.IPNet, []types.IPReservation, error) {
 
 	// Setup the basics here.
-	_, ipnet, _ := net.ParseCIDR(ipamConf.Range)
+	_, ipnet, _ := net.ParseCIDR(ipRange.Range)
 
-	newip, updatedreservelist, err := IterateForAssignment(*ipnet, ipamConf.RangeStart, ipamConf.RangeEnd, reservelist, ipamConf.OmitRanges, containerID)
+	newip, updatedreservelist, err := IterateForAssignment(*ipnet, ipRange.RangeStart, ipRange.RangeEnd, reservelist, ipRange.OmitRanges, containerID)
 	if err != nil {
 		return net.IPNet{}, nil, err
 	}
@@ -35,7 +35,7 @@ func AssignIP(ipamConf types.IPAMConfig, reservelist []types.IPReservation, cont
 }
 
 // DeallocateIP assigns an IP using a range and a reserve list.
-func DeallocateIP(ipamConf types.IPAMConfig, iprange string, reservelist []types.IPReservation, containerID string) ([]types.IPReservation, net.IP, error) {
+func DeallocateIP(ipRange types.IPRange, reservelist []types.IPReservation, containerID string) ([]types.IPReservation, net.IP, error) {
 
 	updatedreservelist, hadip, err := IterateForDeallocation(reservelist, containerID)
 	if err != nil {
