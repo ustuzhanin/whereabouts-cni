@@ -20,6 +20,14 @@ func (a AssignmentError) Error() string {
 	return fmt.Sprintf("Could not allocate IP in range: ip: %v / - %v / range: %#v", a.firstIP, a.lastIP, a.ipnet)
 }
 
+type DeallocateError struct {
+	contaiterID string
+}
+
+func (a DeallocateError) Error() string {
+	return fmt.Sprintf("Could not Deallocate IP for: %s", a.contaiterID)
+}
+
 // AssignIP assigns an IP using a range and a reserve list.
 func AssignIP(ipRange types.IPRange, reservelist []types.IPReservation, containerID string) (net.IPNet, []types.IPReservation, error) {
 
@@ -61,7 +69,7 @@ func IterateForDeallocation(reservelist []types.IPReservation, containerID strin
 
 	// Check if it's a valid index
 	if foundidx < 0 {
-		return reservelist, nil, fmt.Errorf("Did not find reserved IP for container %v", containerID)
+		return reservelist, nil, DeallocateError{contaiterID: containerID}
 	}
 
 	returnip := reservelist[foundidx].IP

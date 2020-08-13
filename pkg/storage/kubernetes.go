@@ -122,6 +122,7 @@ func (i *KubernetesIPAM) getPool(ctx context.Context, name string, iprange strin
 	pool := &whereaboutsv1alpha1.IPPool{
 		ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: i.namespace},
 	}
+	logging.Debugf("get KubernetesIPAM pool %s", name)
 	if err := i.client.Get(ctx, types.NamespacedName{Name: name, Namespace: i.namespace}, pool); errors.IsNotFound(err) {
 		// pool does not exist, create it
 		pool.ObjectMeta.Name = name
@@ -281,6 +282,7 @@ func (p *KubernetesIPPool) Update(ctx context.Context, reservations []whereabout
 		return err
 	}
 
+	logging.Debugf("update KubernetesIPAM pool %+v", orig)
 	// apply the patch
 	err = p.client.Patch(ctx, orig, client.ConstantPatch(types.JSONPatchType, patchData))
 	if err != nil {

@@ -79,6 +79,7 @@ func IPManagement(mode int, ipamConf types.IPAMConfig, containerID string) (net.
 
 	for _, ipRange := range ipamConf.Ranges {
 
+		logging.Debugf("try ipRange:%+v", ipRange)
 		newip, err = IPManagementRange(ctx, mode, ipRange, ipam, ipamConf.OverlappingRanges, containerID)
 		logging.Debugf("result allocate in range %+v IP:%+v err:%v", ipRange, newip, err)
 		if err == nil {
@@ -86,11 +87,18 @@ func IPManagement(mode int, ipamConf types.IPAMConfig, containerID string) (net.
 			break
 
 		} else {
-			if _, ok := err.(allocate.AssignmentError); ok {
-				logging.Debugf("range not have free IP, try next")
-				continue
+			switch mode {
+			case 0:
+				if _, ok := err.(allocate.AssignmentError); ok {
+					logging.Debugf("range not have free IP, try next")
+					continue
+				}
+			case 1:
+				if _, ok := err.(allocate.DeallocateError); ok {
+					logging.Debugf("range not have container, try next")
+					continue
+				}
 			}
-
 			return newip, gateway, err
 		}
 	}
@@ -132,6 +140,7 @@ RETRYLOOP:
 		}
 
 		reservelist := pool.Allocations()
+		logging.Debugf("reservelist: %+v", reservelist)
 		reservelist = append(reservelist, overlappingrangeallocations...)
 		var updatedreservelist []types.IPReservation
 		switch mode {
