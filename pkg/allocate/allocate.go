@@ -43,7 +43,7 @@ func AssignIP(ipRange types.IPRange, reservelist []types.IPReservation, containe
 }
 
 // DeallocateIP assigns an IP using a range and a reserve list.
-func DeallocateIP(ipRange types.IPRange, reservelist []types.IPReservation, containerID string) ([]types.IPReservation, net.IP, error) {
+func DeallocateIP(reservelist []types.IPReservation, containerID string) ([]types.IPReservation, net.IP, error) {
 
 	updatedreservelist, hadip, err := IterateForDeallocation(reservelist, containerID)
 	if err != nil {

@@ -171,7 +171,7 @@ RETRYLOOP:
 			}
 
 		case types.Deallocate:
-			updatedreservelist, ipforoverlappingrangeupdate, err = allocate.DeallocateIP(ipRange, reservelist, containerID)
+			updatedreservelist, ipforoverlappingrangeupdate, err = allocate.DeallocateIP(reservelist, containerID)
 			if err != nil {
 				logging.Errorf("Error deallocating IP: %v", err)
 				return newip, err
